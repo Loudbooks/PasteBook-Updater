@@ -70,8 +70,6 @@ app.post('/', async (req, res) => {
       res.status(400).send('Invalid JSON')
       return
     }
-
-    console.log('Parsed JSON:', jsonData)
   })
 
   res.status(200).send()
