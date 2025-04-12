@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "module": "ESNext",
+        "moduleResolution": "Node",
+        "allowSyntheticDefaultImports": true,
+        "target": "es2021",
+        "lib": ["es2021"],
+    },
+    "ts-node": {
+        "esm": true,
+        "experimentalSpecifierResolution": "node",
+    }
+}
