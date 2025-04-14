@@ -1,7 +1,7 @@
 import { Webhooks } from "@octokit/webhooks";
 import express from 'express';
 import dotenv from 'dotenv'
-import { exec}  from 'child_process'
+import { exec } from 'child_process'
 
 dotenv.config()
 
@@ -47,9 +47,9 @@ app.post('/', async (req, res) => {
         return
       }
 
-      if (!jsonData.action || jsonData.action !== 'completed' || jsonData.workflow_run.conclusion !== 'success') {
+      if (!jsonData.action || (jsonData.action !== 'completed' && jsonData.action !== 'in_progress') || (jsonData.action !== 'in_progress' && jsonData.workflow_run.conclusion !== 'success')) {
         console.error('Invalid action or conclusion')
-        res.status(400).send('Bad Request')
+        res.status(202).send('Ignored. Wrong action or conclusion.')
         return
       }
 
@@ -63,16 +63,16 @@ app.post('/', async (req, res) => {
           return
         }
         console.log(`stdout: ${stdout}`)
-      });      
+      });
     }
     catch (error) {
       console.error('Error parsing JSON:', error)
       res.status(400).send('Invalid JSON')
       return
     }
-  })
 
-  res.status(200).send()
+    res.status(200).send()
+  })
 })
 
 app.listen(port, () => {
